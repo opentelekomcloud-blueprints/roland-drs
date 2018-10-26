@@ -1,0 +1,8 @@
+---
+- name: Create BMS
+  hosts: localhost
+  environment:
+    OS_CLOUD: "{{ cloud_name }}"
+  tasks:
+    - include_role:
+        name: bms

@@ -1,0 +1,11 @@
+---
+server_create_timeout: 700
+bms_tag_name: __type_baremetal
+bms_name: some_dummy_bms_name
+bms_image_name: Beta_OracleLinux_7UEK_BMS_latest
+bms_flavor_name: physical.o2.medium
+bms_networks:
+bms_security_groups:
+
+bms_availability_zone: eu-de-02
+bms_key_name: some_dummy_keypair

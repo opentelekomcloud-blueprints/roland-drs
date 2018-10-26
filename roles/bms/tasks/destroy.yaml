@@ -1,0 +1,6 @@
+---
+
+- name: Delete BMS
+  os_server:
+    name: "{{ bms_name }}"
+    state: absent
