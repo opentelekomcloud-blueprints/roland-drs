@@ -21,4 +21,22 @@ bms_volumes:
   - Matt-data-volume1
   - Matt-data-volume2
 
+# logical volume dict
+lv:
+  ora1:
+    name: ora1
+    vg: oradata
+    mount: /oracle/ora1
+  ora2:
+    name: ora2
+    vg: oradata
+    mount: /oracle/ora2
+  ora3:
+    name: ora3
+    vg: oradata
+    mount: /oracle/ora3
+
+# filesystem and mount options configuration
+bms_volumes_filesystem: xfs
+bmx_volumes_mount_opt: rw
 
