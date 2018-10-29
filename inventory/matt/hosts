@@ -1,0 +1,4 @@
+[bms_servers]
+
+matt-bms-rrs ansible_user=linux  ansible_ssh_private_key_file=/home/ubuntu/cmtest.pem
+# ansible_host=160.44.207.94
