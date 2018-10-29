@@ -1,0 +1,11 @@
+---
+
+- name: mount volumes on BMS
+  environment:
+    OS_CLOUD: "{{ cloud_name }}"
+  hosts: bms_servers
+  become: yes
+  tasks:
+    - include_role:
+        name: lvm
+        tasks_from: mount
