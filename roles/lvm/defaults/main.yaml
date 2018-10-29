@@ -1,7 +1,25 @@
 ---
-bms_volumes:
-  - some-data-volume1
-  - some-data-volume2
-  - some-data-volume3
+#bms_volumes:
+#  - some-data-volume1
+#  - some-data-volume2
+#  - some-data-volume3
 
+# logical volume dict
+#lv:
+#  some-lv1:
+#    name: some-lv1
+#    vg: some-vg
+#    mount: /some-dir/some-mount-point1
+#  some-lv2:
+#    name: some-lv2
+#    vg: some-vg
+#    mount: /some-dir/some-mount-point2
+#  some-lv3:
+#    name: some-lv3
+#    vg: some-vg
+#    mount: /some-dir/some-mount-point3
+
+# filesystem and mount options configuration
+#bms_volumes_filesystem: xfs
+#bmx_volumes_mount_opt: rw
 

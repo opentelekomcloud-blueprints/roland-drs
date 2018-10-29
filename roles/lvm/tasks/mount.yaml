@@ -1,0 +1,11 @@
+---
+
+- name: mount bms volumes
+  mount:
+    path: "{{ item.value.mount }}"
+    src: /dev/{{ item.value.vg }}/{{ item.value.name }}
+    fstype: "{{ bms_volumes_filesystem }}"
+    opts: "{{ bmx_volumes_mount_opt }}"
+    state: mounted
+  with_dict: "{{ lv }}"
+
