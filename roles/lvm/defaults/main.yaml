@@ -1,0 +1,7 @@
+---
+bms_volumes:
+  - some-data-volume1
+  - some-data-volume2
+  - some-data-volume3
+
+

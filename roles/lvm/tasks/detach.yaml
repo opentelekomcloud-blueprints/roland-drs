@@ -1,0 +1,7 @@
+---
+- name: attach bms volumes
+  os_server_volume:
+    state: absent
+    server: "{{ bms_name }}"
+    volume: "{{ item }}"
+  with_items: "{{ bms_volumes }}"
