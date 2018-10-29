@@ -1,0 +1,48 @@
+---
+# Base Oracle SW intallation
+
+# # Unpack Ora patches
+# export ORACLE_SID=ORACLE
+# export ORACLE_SID_KL=$(echo $ORACLE_SID|tr [:upper:] [:lower:])
+# export ORACLE_BASE=/opt/oracle/sw/lib:${ORACLE_SID_KL}
+# export ORACLE_HOME=${ORACLE_BASE}/12cR2
+# export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib:$ORACLE_HOME/lib:$ORACLE_HOME/rdbms/lib
+# export ORACLE_NLS10=$ORACLE_HOME/nls/databaseexport PATH=$ORACLE_HOME/product/12.2.0.1/perl/bin:$PATH:$ORACLE_HOME/bin:.:$ORACLE_HOME/OPatch
+#
+# /opt/oracle/sw/orainst/runInstaller -silent -ignoreSysPrereqs -responseFile rdbms_sw.rsp
+#
+# rm -rf $ORACLE_HOME/OPatch
+# mv OPatch $ORACLE_HOME
+# cd 28163133
+# opatch apply -silent -ocmrf ../ocm.rsp
+#
+# opatch lsinventory > $HOME/opatch_lsinventory.log
+#
+#
+# ### disable options
+# - name: chopts
+#   environment: "{{ ora_env }}"
+#   shell: "{{ 'chopt disable ' + item }}"
+#   args:
+#     chdir: "$ORACLE_HOME/bin"
+#   loop:
+#     - olap
+#     - partitioning
+#     - rat
+#     - oaa
+# cd $ORACLE_HOME/bin
+# chopt disable olap
+# chopt disable partitioning
+# chopt disable rat
+# chopt disable oaa
+
+### sticky bits
+# - name: set sticky bit on tnslsnr
+#   file:
+#     path: /opt/oracle/sw/oracle/12cR2/bin/tnslsnr
+#     mode: u=rwx,g=rx,o=x,g+s
+#
+# - name: set sticky bit on tnslsnr
+#   file:
+#     path: /opt/oracle/sw/oracle/12cR2/bin/oracle
+#     mode: u=rwx,g=rx,o=x,g+s
