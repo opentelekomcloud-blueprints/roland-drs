@@ -1,0 +1,10 @@
+---
+
+- name: detach data volumes from BMS
+  environment:
+    OS_CLOUD: "{{ cloud_name }}"
+  hosts: localhost
+  tasks:
+    - include_role:
+        name: lvm
+        tasks_from: detach
