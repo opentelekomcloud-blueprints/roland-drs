@@ -18,3 +18,16 @@
     group: "{{ item.group }}"
     home: "{{ item.home }}"
   loop: "{{ additional_users }}"
+
+- name: set oracle user environment permanent
+  lineinfile: dest=/opt/oracle/sw/.bashrc state=present line="{{ item }}"
+  become: yes
+  become_user: oracle
+  with_items:
+    - "export ORACLE_SID={{ ora_env.ORACLE_SID }}"
+    - "export ORACLE_SID_KL={{ ora_env.ORACLE_SID_KL }}"
+    - "export ORACLE_BASE={{ ora_env.ORACLE_BASE }}"
+    - "export ORACLE_HOME={{ ora_env.ORACLE_HOME }}"
+    - "export PATH={{ ora_env.PATH }}"
+    - "export LD_LIBRARY_PATH={{ ora_env.LD_LIBRARY_PATH }}"
+    - "export ORACLE_NLS10={{ ora_env.ORACLE_NLS10 }}"

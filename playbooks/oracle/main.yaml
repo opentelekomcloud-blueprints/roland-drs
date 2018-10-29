@@ -1,0 +1,19 @@
+---
+- name: Pre-Install Oracle on BMS servers
+  hosts: bms_servers
+  become: true
+  tasks:
+    - include_role:
+        name: oracle
+        tasks_from: preinstall
+
+- name: Install Oracle on BMS servers
+  hosts: bms_servers
+  become: true
+  become_user: oracle
+  # become_method: su
+  # become_exe: sudo su -
+  tasks:
+    - include_role:
+        name: oracle
+        tasks_from: install

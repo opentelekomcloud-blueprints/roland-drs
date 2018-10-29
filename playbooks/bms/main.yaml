@@ -14,6 +14,3 @@
     - include_role:
         name: bms
         tasks_from: os_settings
-    # - include_role:
-    #     name: oracle
-    #     tasks_from: preinstall

@@ -3,3 +3,16 @@ additional_users:
   - name: oraiceprd
     group: oinstall
     home: /opt/oracle/sw/iceprd
+
+oracle_sid: ORACLE
+oracle_sid_kl: "{{ oracle_sid | lower }}"
+oracle_path: /opt/oracle/sw
+
+ora_env:
+  ORACLE_SID: "{{ oracle_sid }}"
+  ORACLE_SID_KL: "{{ oracle_sid_kl }}"
+  ORACLE_BASE: "{{oracle_path}}/lib:{{oracle_sid_kl}}"
+  ORACLE_HOME: "${ORACLE_BASE}/12cR2"
+  LD_LIBRARY_PATH: "/lib:/usr/lib:/usr/local/lib:$ORACLE_HOME/lib:$ORACLE_HOME/rdbms/lib"
+  ORACLE_NLS10: "$ORACLE_HOME/nls/data"
+  PATH: "$ORACLE_HOME/product/12.2.0.1/perl/bin:$PATH:$ORACLE_HOME/bin:.:$ORACLE_HOME/OPatch"
