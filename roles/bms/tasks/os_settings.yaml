@@ -1,13 +1,6 @@
 ---
 # Set up required OS settings
 
-# - include_tasks: "{{ task }}.yaml"
-#   loop_control:
-#     loop_var: task
-#   with_items:
-#     - tz
-#     - sysctl
-
 - name: set timezone to Europe/Berlin
   timezone:
     name: Europe/Berlin
@@ -27,13 +20,6 @@
     limit_item: "{{ item.limit_item }}"
     value: "{{ item.value }}"
   loop: "{{ limits_entries }}"
-
-# - name: install packages
-#   package:
-#     name: "{{ item }}"
-#     state: present
-#   loop:
-#     - python2-firewalld
 
 - name: setup firewall zones
   firewalld:
