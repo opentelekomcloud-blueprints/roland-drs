@@ -1,0 +1,20 @@
+---
+- name: BMS SecGrp
+  os_security_group:
+    state: "{{ module_state }}"
+    name: "{{ bms_security_group }}"
+    description: Security group for the BMS host
+
+- name: BMS SecGrp ICMP Rule
+  os_security_group_rule:
+    security_group: "{{ bms_security_group }}"
+    protocol: icmp
+    remote_ip_prefix: 0.0.0.0/0
+
+- name: BMS SecGrp SSH Rule
+  os_security_group_rule:
+    security_group: "{{ bms_security_group }}"
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0

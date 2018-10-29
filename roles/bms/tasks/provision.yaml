@@ -1,0 +1,39 @@
+---
+
+- name: Start BMS (takes long)
+  os_server:
+    name: "{{ bms_name }}"
+    state: present
+    # auto_ip: false
+    flavor: "{{ bms_flavor_name }}"
+    image: "{{ bms_image_name }}"
+    availability_zone: "{{ bms_availability_zone }}"
+    nics: "{{ bms_networks }}"
+    key_name: "{{ bms_key_name }}"
+    timeout: "{{ server_create_timeout }}"
+    security_groups: "{{ bms_security_groups }}"
+  register: bms_server
+
+- name: Set BMS tag
+  os_server_tag:
+    server: "{{ bms_name }}"
+    state: present
+    tag: "{{ bms_tag_name }}"
+
+- name: Get the access address
+  set_fact:
+    bms_interface_ip: "{{ bms_server['server']['interface_ip'] | default(bms_server['server']['private_v4']) }}"
+
+- name: Check connectivity to the master server
+  wait_for:
+    port: 22
+    host: "{{ bms_interface_ip }}"
+    timeout: 300
+
+- name: Add the master to the inventory
+  add_host:
+    name: "{{ bms_name }}"
+    groups: bms_servers
+    ansible_host: "{{ bms_interface_ip }}"
+    ansible_user: "{{ bms_username }}"
+    ansible_ssh_private_key_file: "{{ ('~/.ssh/' + bms_key_name + '.pem') }}"

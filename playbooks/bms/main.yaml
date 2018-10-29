@@ -1,8 +1,19 @@
 ---
-- name: Create BMS
-  hosts: localhost
-  environment:
-    OS_CLOUD: "{{ cloud_name }}"
+# - name: Create BMS
+#   hosts: localhost
+#   environment:
+#     OS_CLOUD: "{{ cloud_name }}"
+#   tasks:
+#     - include_role:
+#         name: bms
+
+- name: Provision BMS
+  hosts: bms_servers
+  become: true
   tasks:
     - include_role:
         name: bms
+        tasks_from: os_settings
+    # - include_role:
+    #     name: oracle
+    #     tasks_from: preinstall

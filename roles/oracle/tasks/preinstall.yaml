@@ -1,0 +1,20 @@
+---
+# Preinstall steps
+
+- name: install oracle preinstall package
+  package:
+    name: oracle-database-server-12cR2-preinstall.x86_64
+    state: present
+
+- name: move Oracle home
+  user:
+    name: oracle
+    home: /opt/oracle/sw
+    move_home: true
+
+- name: create additional oracle users
+  user:
+    name: "{{ item.name }}"
+    group: "{{ item.group }}"
+    home: "{{ item.home }}"
+  loop: "{{ additional_users }}"

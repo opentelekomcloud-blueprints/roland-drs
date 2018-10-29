@@ -1,0 +1,5 @@
+
+additional_users:
+  - name: oraiceprd
+    group: oinstall
+    home: /opt/oracle/sw/iceprd

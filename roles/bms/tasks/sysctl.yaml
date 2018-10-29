@@ -1,0 +1,25 @@
+---
+# Set required sysctl settings
+# - name: install custom Sysctl properties file
+#   template:
+#     src: 70-ora.conf.j2
+#     dest: /etc/sysctl.d/70-ora.conf
+#     owner: root
+#     group: root
+#     mode: 0644
+
+# or so
+
+- name: set number of Hugepages
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: "{{ item.state }}"
+
+- name: set limits
+  pam_limits:
+    domain: "{{ item.domain }}"
+    limit_type: "{{ item.limit_type }}"
+    limit_item: "{{ item.limit_item }}"
+    value: "{{ item.value }}"
+  loop: "{{ limits }}"

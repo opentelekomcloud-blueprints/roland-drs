@@ -1,11 +1,67 @@
 ---
+module_state: present
+
 server_create_timeout: 700
 bms_tag_name: __type_baremetal
 bms_name: some_dummy_bms_name
 bms_image_name: Beta_OracleLinux_7UEK_BMS_latest
+bms_username: linux
 bms_flavor_name: physical.o2.medium
 bms_networks:
 bms_security_groups:
+  - "{{ bms_security_group }}"
 
 bms_availability_zone: eu-de-02
 bms_key_name: some_dummy_keypair
+bms_security_group: sg-bms
+
+
+sysctl_entries:
+  - name: vm.nr_hugepages
+    value: 98304
+    state: present
+
+limits_entries:
+  - domain: "*"
+    limit_type: soft
+    limit_item: memlock
+    value: 201326602
+  - domain: "*"
+    limit_type: hard
+    limit_item: memlock
+    value: 201326602
+  - domain: "@oinstall"
+    limit_type: soft
+    limit_item: nofile
+    value: 4096
+  - domain: "@oinstall"
+    limit_type: hard
+    limit_item: nofile
+    value: 65536
+  - domain: "@oinstall"
+    limit_type: soft
+    limit_item: stack
+    value: 10240
+
+firewalld_zones:
+  - zone: oradb
+
+firewalld_entries:
+  - zone: oradb
+    source: 10.0.0.0/8
+  - zone: oradb
+    source: 172.21.0.0/16
+  - zone: oradb
+    port: 1521/tcp
+  - zone: oradb
+    port: 22/tcp
+  - zone: oradb
+    port: 7777/tcp
+  - zone: oradb
+    port: 2700/tcp
+  - zone: oradb
+    port: 8871/tcp
+  - zone: oradb
+    port: 161/udp
+  - zone: oradb
+    port: 162/udp

@@ -1,0 +1,7 @@
+---
+# Timezone stuff
+
+# ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+- name: set timezone to Europe/Berlin
+  timezone:
+    name: Europe/Berlin

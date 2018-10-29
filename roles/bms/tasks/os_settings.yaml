@@ -1,0 +1,56 @@
+---
+# Set up required OS settings
+
+# - include_tasks: "{{ task }}.yaml"
+#   loop_control:
+#     loop_var: task
+#   with_items:
+#     - tz
+#     - sysctl
+
+- name: set timezone to Europe/Berlin
+  timezone:
+    name: Europe/Berlin
+
+- name: set sysctl properties
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: "{{ item.state }}"
+    reload: "{{ item.reload | default(omit) }}"
+  loop: "{{ sysctl_entries }}"
+
+- name: set limits
+  pam_limits:
+    domain: "{{ item.domain }}"
+    limit_type: "{{ item.limit_type }}"
+    limit_item: "{{ item.limit_item }}"
+    value: "{{ item.value }}"
+  loop: "{{ limits_entries }}"
+
+# - name: install packages
+#   package:
+#     name: "{{ item }}"
+#     state: present
+#   loop:
+#     - python2-firewalld
+
+- name: setup firewall zones
+  firewalld:
+    permanent: true
+    state: present
+    zone: "{{ item.zone }}"
+  loop: "{{ firewalld_zones }}"
+
+- name: Restart firewalld
+  service: name=firewalld state=restarted
+
+- name: setup firewall rules
+  firewalld:
+    permanent: "{{ item.permanent | default('true') }}"
+    state: "{{ item.state | default('enabled') }}"
+    zone: "{{ item.zone }}"
+    source: "{{ item.source | default(omit) }}"
+    port: "{{ item.port | default(omit) }}"
+    immediate: yes
+  loop: "{{ firewalld_entries }}"

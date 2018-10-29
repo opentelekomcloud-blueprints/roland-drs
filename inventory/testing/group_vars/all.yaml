@@ -6,7 +6,11 @@ bms_image_name: Beta_OracleLinux_7UEK_BMS_latest
 bms_flavor_name: physical.o2.medium
 bms_networks:
   - net-id: 9d0afe15-fb4e-40b9-81b1-e37ed63b0793
+# Security groups should be present
 bms_security_groups:
+  - default
+  - sg-bms
 
 bms_availability_zone: eu-de-02
 bms_key_name: KeyPair-e95e
+bms_username: linux

@@ -1,18 +1,8 @@
 ---
 
-- name: Start BMS (takes long)
-  os_server:
-    name: "{{ bms_name }}"
-    state: present
-    flavor: "{{ bms_flavor_name }}"
-    image: "{{ bms_image_name }}"
-    availability_zone: "{{ bms_availability_zone }}"
-    nics: "{{ bms_networks }}"
-    key_name: "{{ bms_key_name }}"
-    timeout: "{{ server_create_timeout }}"
-
-- name: Set BMS tag
-  os_server_tag:
-    server: "{{ bms_name }}"
-    state: present
-    tag: "{{ bms_tag_name }}"
+- include_tasks: "{{ task }}.yaml"
+  loop_control:
+    loop_var: task
+  with_items:
+    - sec_group
+    - provision
