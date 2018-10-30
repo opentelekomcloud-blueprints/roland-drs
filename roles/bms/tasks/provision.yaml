@@ -2,21 +2,21 @@
 
 - name: Start BMS (takes long)
   os_server:
-    name: "{{ bms_name }}"
+    name: "{{ server_name }}"
     state: present
     # auto_ip: false
-    flavor: "{{ bms_flavor_name }}"
-    image: "{{ bms_image_name }}"
-    availability_zone: "{{ bms_availability_zone }}"
-    nics: "{{ bms_networks }}"
-    key_name: "{{ bms_key_name }}"
+    flavor: "{{ server_flavor_name }}"
+    image: "{{ server_image_name }}"
+    availability_zone: "{{ server_availability_zone }}"
+    nics: "{{ server_networks }}"
+    key_name: "{{ server_key_name }}"
     timeout: "{{ server_create_timeout }}"
-    security_groups: "{{ bms_security_groups }}"
+    security_groups: "{{ server_security_groups }}"
   register: bms_server
 
 - name: Set BMS tag
   os_server_tag:
-    server: "{{ bms_name }}"
+    server: "{{ server_name }}"
     state: present
     tag: "{{ bms_tag_name }}"
 
@@ -32,8 +32,8 @@
 
 - name: Add the master to the inventory
   add_host:
-    name: "{{ bms_name }}"
+    name: "{{ server_name }}"
     groups: bms_servers
     ansible_host: "{{ bms_interface_ip }}"
-    ansible_user: "{{ bms_username }}"
-    ansible_ssh_private_key_file: "{{ ('~/.ssh/' + bms_key_name + '.pem') }}"
+    ansible_user: "{{ server_username }}"
+    ansible_ssh_private_key_file: "{{ ('~/.ssh/' + server_key_name + '.pem') }}"

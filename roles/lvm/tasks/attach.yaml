@@ -2,6 +2,6 @@
 - name: attach bms volumes
   os_server_volume:
     state: present
-    server: "{{ bms_name }}"
-    volume: "{{ item }}"
-  with_items: "{{ bms_volumes }}"
+    server: "{{ server_name }}"
+    volume: "{{ item.name }}"
+  with_items: "{{ server_volumes }}"

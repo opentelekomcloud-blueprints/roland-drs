@@ -1,0 +1,13 @@
+---
+# Check presence/create required Cinder volumes
+- name: ensure presence of cinder volumes
+  os_volume:
+    state: present
+    # volume: "{{ item.name }}"
+    display_name: "{{ item.name }}"
+    availability_zone: "{{ server_availability_zone }}"
+    size: "{{ item.size | default(default_volume_size) }}"
+    volume_type: "{{ item.type | default(omit) }}"
+    metadata:
+      "hw:passthrough": "true"
+  with_items: "{{ server_volumes }}"

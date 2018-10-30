@@ -1,25 +1,23 @@
 ---
 
 cloud_name: otc
-bms_name: matt-bms-rrs
-bms_image_name: Beta_OracleLinux_7UEK_BMS_latest
-bms_flavor_name: physical.o2.medium
-bms_networks:
+server_name: matt-bms-rrs
+server_networks:
   - net-id: 23289438-add4-4f9a-84ee-897691137180
 
 # Security groups should be present
-bms_security_groups:
-  - sg-Matt
+# server_security_groups:
+  # - sg-Matt
 
-bms_availability_zone: eu-de-02
-bms_key_name: KeyPair-Matt-CM
-bms_username: linux
+server_availability_zone: eu-de-02
+server_key_name: KeyPair-Matt-CM
+# server_username: linux
 
 # data volumes to attach/detach
-bms_volumes:
-  - Matt-data-volume
-  - Matt-data-volume1
-  - Matt-data-volume2
+server_volumes:
+  - name: Matt-data-volume
+  - name: Matt-data-volume1
+  - name: Matt-data-volume2
 
 # logical volume dict
 lv:
@@ -37,6 +35,5 @@ lv:
     mount: /oracle/ora3
 
 # filesystem and mount options configuration
-bms_volumes_filesystem: xfs
-bmx_volumes_mount_opt: rw
-
+server_volumes_filesystem: xfs
+server_volumes_mount_opt: rw
