@@ -2,17 +2,26 @@
 additional_users:
   - name: oraiceprd
     group: oinstall
-    home: /opt/oracle/sw/iceprd
+    home: "{{ oracle_path + '/iceprd' }}"
 
 oracle_sid: ORACLE
 oracle_sid_kl: "{{ oracle_sid | lower }}"
 oracle_path: /opt/oracle/sw
+oracle_base: "{{ oracle_path }}/{{ oracle_sid_kl }}"
+oracle_home: "{{ oracle_base }}/12cR2"
+
+# Destination of the oracle installation packages
+oracle_packages_location: "{{ oracle_path }}/orainst"
+oracle_install_location: "{{ oracle_packages_location }}/database"
+oracle_packages_list: []
+oracle_patches_list: []
+sw_source_location:
 
 ora_env:
   ORACLE_SID: "{{ oracle_sid }}"
   ORACLE_SID_KL: "{{ oracle_sid_kl }}"
-  ORACLE_BASE: "{{oracle_path}}/lib:{{oracle_sid_kl}}"
-  ORACLE_HOME: "${ORACLE_BASE}/12cR2"
-  LD_LIBRARY_PATH: "/lib:/usr/lib:/usr/local/lib:$ORACLE_HOME/lib:$ORACLE_HOME/rdbms/lib"
-  ORACLE_NLS10: "$ORACLE_HOME/nls/data"
-  PATH: "$ORACLE_HOME/product/12.2.0.1/perl/bin:$PATH:$ORACLE_HOME/bin:.:$ORACLE_HOME/OPatch"
+  ORACLE_BASE: "{{ oracle_base }}"
+  ORACLE_HOME: "{{ oracle_home }}"
+  # LD_LIBRARY_PATH: "/lib:/usr/lib:/usr/local/lib:$ORACLE_HOME/lib:$ORACLE_HOME/rdbms/lib"
+  ORA_NLS10: "$ORACLE_HOME/nls/data"
+  # PATH: "$ORACLE_HOME/product/12.2.0.1/perl/bin:$PATH:$ORACLE_HOME/bin:.:$ORACLE_HOME/OPatch"

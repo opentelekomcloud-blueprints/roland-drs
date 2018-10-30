@@ -30,4 +30,4 @@
     - "export ORACLE_HOME={{ ora_env.ORACLE_HOME }}"
     - "export PATH={{ ora_env.PATH }}"
     - "export LD_LIBRARY_PATH={{ ora_env.LD_LIBRARY_PATH }}"
-    - "export ORACLE_NLS10={{ ora_env.ORACLE_NLS10 }}"
+    - "export ORA_NLS10={{ ora_env.ORACLE_NLS10 }}"

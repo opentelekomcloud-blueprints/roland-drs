@@ -1,0 +1,19 @@
+---
+# Push Oracle installation SW to the server
+
+- name: create oracle sw destination ({{ oracle_packages_location }})
+  file:
+    path: "{{ oracle_packages_location }}"
+    state: directory
+    mode: 0775
+
+- name: unzip oracle install packages to {{ oracle_packages_location }}
+  unarchive:
+    src: "{{ sw_source_location }}/{{ item }}"
+    dest: "{{ oracle_packages_location }}"
+  loop: "{{ oracle_packages_list }}"
+
+- name: push response file for oracle installation
+  copy:
+    src: "{{ sw_source_location }}/rdbms_sw.rsp"
+    dest: "{{ oracle_install_location }}/rdbms_sw.rsp"
