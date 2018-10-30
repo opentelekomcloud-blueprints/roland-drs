@@ -14,3 +14,36 @@ bms_security_groups:
 bms_availability_zone: eu-de-02
 bms_key_name: KeyPair-e95e
 bms_username: linux
+
+# data volumes to attach/detach
+# default size of the cinder volume to create for LVM
+default_volume_size: 10
+bms_volumes:
+  - name: data-volume
+    size: 10
+    # type: SAS
+  - name: data-volume1
+    size: 10
+    # type: SAS
+  - name: data-volume2
+    size: 10
+    # type: SAS
+
+# logical volume dict
+lv:
+  ora1:
+    name: ora1
+    vg: oradata
+    mount: /oracle/ora1
+  ora2:
+    name: ora2
+    vg: oradata
+    mount: /oracle/ora2
+  ora3:
+    name: ora3
+    vg: oradata
+    mount: /oracle/ora3
+
+# filesystem and mount options configuration
+bms_volumes_filesystem: xfs
+bmx_volumes_mount_opt: rw

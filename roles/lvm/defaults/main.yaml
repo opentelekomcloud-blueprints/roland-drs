@@ -1,11 +1,11 @@
 ---
-#bms_volumes:
+bms_volumes:
 #  - some-data-volume1
 #  - some-data-volume2
 #  - some-data-volume3
 
 # logical volume dict
-#lv:
+lv:
 #  some-lv1:
 #    name: some-lv1
 #    vg: some-vg
@@ -20,6 +20,5 @@
 #    mount: /some-dir/some-mount-point3
 
 # filesystem and mount options configuration
-#bms_volumes_filesystem: xfs
-#bmx_volumes_mount_opt: rw
-
+bms_volumes_filesystem: xfs
+bmx_volumes_mount_opt: rw

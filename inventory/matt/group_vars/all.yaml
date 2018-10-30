@@ -16,10 +16,11 @@ bms_key_name: KeyPair-Matt-CM
 bms_username: linux
 
 # data volumes to attach/detach
+default_volume_size: 10
 bms_volumes:
-  - Matt-data-volume
-  - Matt-data-volume1
-  - Matt-data-volume2
+  - name: Matt-data-volume
+  - name: Matt-data-volume1
+  - name: Matt-data-volume2
 
 # logical volume dict
 lv:
@@ -39,4 +40,3 @@ lv:
 # filesystem and mount options configuration
 bms_volumes_filesystem: xfs
 bmx_volumes_mount_opt: rw
-

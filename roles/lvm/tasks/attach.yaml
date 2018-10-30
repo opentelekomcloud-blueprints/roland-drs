@@ -3,5 +3,5 @@
   os_server_volume:
     state: present
     server: "{{ bms_name }}"
-    volume: "{{ item }}"
+    volume: "{{ item.name }}"
   with_items: "{{ bms_volumes }}"

@@ -65,3 +65,5 @@ firewalld_entries:
     port: 161/udp
   - zone: oradb
     port: 162/udp
+
+default_volume_size: 10
