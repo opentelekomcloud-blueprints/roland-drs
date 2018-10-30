@@ -2,6 +2,6 @@
 - name: detach bms volumes
   os_server_volume:
     state: absent
-    server: "{{ bms_name }}"
+    server: "{{ server_name }}"
     volume: "{{ item.name }}"
-  with_items: "{{ bms_volumes }}"
+  with_items: "{{ server_volumes }}"

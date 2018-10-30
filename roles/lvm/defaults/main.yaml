@@ -1,5 +1,5 @@
 ---
-bms_volumes:
+server_volumes:
 #  - some-data-volume1
 #  - some-data-volume2
 #  - some-data-volume3
@@ -20,5 +20,5 @@ lv:
 #    mount: /some-dir/some-mount-point3
 
 # filesystem and mount options configuration
-bms_volumes_filesystem: xfs
-bmx_volumes_mount_opt: rw
+server_volumes_filesystem: xfs
+server_volumes_mount_opt: rw

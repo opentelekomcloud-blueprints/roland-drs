@@ -1,33 +1,46 @@
 ---
 
+# Cloud connection name
 cloud_name: otc
-bms_name: bms-test
-bms_image_name: Beta_OracleLinux_7UEK_BMS_latest
-bms_flavor_name: physical.o2.medium
-bms_networks:
+
+# Name of the server
+server_name: bms-test
+
+# Server image name (default: Beta_OracleLinux_7UEK_BMS_latest)
+server_image_name: Beta_OracleLinux_7UEK_BMS_latest
+
+# Server flavor (default: physical.o2.medium)
+server_flavor_name: physical.o2.medium
+
+# List of the networks to connect to the server
+server_networks:
   - net-id: 9d0afe15-fb4e-40b9-81b1-e37ed63b0793
+
 # Security groups should be present
-bms_security_groups:
-  - default
+server_security_groups:
   - sg-bms
 
-bms_availability_zone: eu-de-02
-bms_key_name: KeyPair-e95e
-bms_username: linux
+# server_default_security_group: bms-sg is created if does not exist
+
+# Availability zone for the server (default: eu-de-01)
+server_availability_zone: eu-de-02
+
+# KeyPair name for the server to be created with
+server_key_name: KeyPair-e95e
+
+# SSH user name to use for connection
+server_username: linux
 
 # data volumes to attach/detach
-# default size of the cinder volume to create for LVM
+# default size of the cinder volume to create for LVM (default: 10)
 default_volume_size: 10
-bms_volumes:
+
+# List of volumes to be used as LVM
+# {name:'name', size: 10, type: 'SAS'}
+server_volumes:
   - name: data-volume
-    size: 10
-    # type: SAS
   - name: data-volume1
-    size: 10
-    # type: SAS
   - name: data-volume2
-    size: 10
-    # type: SAS
 
 # logical volume dict
 lv:
@@ -45,5 +58,5 @@ lv:
     mount: /oracle/ora3
 
 # filesystem and mount options configuration
-bms_volumes_filesystem: xfs
-bmx_volumes_mount_opt: rw
+server_volumes_filesystem: xfs
+server_volumes_mount_opt: rw

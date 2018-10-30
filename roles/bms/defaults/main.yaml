@@ -3,17 +3,17 @@ module_state: present
 
 server_create_timeout: 700
 bms_tag_name: __type_baremetal
-bms_name: some_dummy_bms_name
-bms_image_name: Beta_OracleLinux_7UEK_BMS_latest
-bms_username: linux
-bms_flavor_name: physical.o2.medium
-bms_networks:
-bms_security_groups:
-  - "{{ bms_security_group }}"
+server_name: some_dummy_server_name
+server_image_name: Beta_OracleLinux_7UEK_BMS_latest
+server_flavor_name: physical.o2.medium
+server_username: linux
+server_networks:
+server_security_groups:
+  - "{{ server_default_security_group }}"
 
-bms_availability_zone: eu-de-02
-bms_key_name: some_dummy_keypair
-bms_security_group: sg-bms
+server_availability_zone: eu-de-01
+server_key_name: some_dummy_keypair
+server_default_security_group: sg-bms
 
 
 sysctl_entries:
