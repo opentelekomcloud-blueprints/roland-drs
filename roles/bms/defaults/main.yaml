@@ -7,14 +7,13 @@ server_name: some_dummy_server_name
 server_image_name: Beta_OracleLinux_7UEK_BMS_latest
 server_flavor_name: physical.o2.medium
 server_username: linux
-server_networks:
+server_networks: []
 server_security_groups:
   - "{{ server_default_security_group }}"
 
 server_availability_zone: eu-de-01
 server_key_name: some_dummy_keypair
 server_default_security_group: sg-bms
-
 
 sysctl_entries:
   - name: vm.nr_hugepages
@@ -66,4 +65,7 @@ firewalld_entries:
   - zone: oradb
     port: 162/udp
 
+# Default size for the Cinder LVM module
 default_volume_size: 10
+
+server_volumes: []

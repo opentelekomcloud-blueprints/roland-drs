@@ -60,3 +60,15 @@ lv:
 # filesystem and mount options configuration
 server_volumes_filesystem: xfs
 server_volumes_mount_opt: rw
+
+sw_packages_list:
+sw_source_location: /home/gtema/workspace/otc/roland-drs/sw
+# oracle_packages_list:
+#   - V839960-01(Server).zip
+#   - p28163133_122010_Linux-x86-64.zip
+#   - p6880880_122010_Linux-x86-64.zip
+
+# List of patch directories to be applied with `opatch` after unpacking them
+# from `oracle_packages_list`
+oracle_patches_list:
+  - 28163133

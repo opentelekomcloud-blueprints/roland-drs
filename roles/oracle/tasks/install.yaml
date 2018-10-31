@@ -1,6 +1,84 @@
 ---
 # Base Oracle SW intallation
 
+- name: check presence of oracle installer
+  stat:
+    path: "{{ oracle_install_location }}/runInstaller"
+  register: stat_installer
+
+- name: check presence of response file
+  stat:
+    path: "{{ oracle_install_location }}/rdbms_sw.rsp"
+  register: stat_rsp
+
+- name: check presence of OPatch distr
+  stat:
+    path: "{{ oracle_packages_location }}/OPatch"
+  register: stat_opatch
+
+- name: check oracle patches in {{ oracle_packages_location }}
+  stat:
+    path: "{{ oracle_packages_location }}/{{ item }}"
+  loop: "{{ oracle_patches_list }}"
+  register: stat_patches
+
+- name: check if oracle has already been installed
+  stat: path=/etc/oratab
+  register: oracle_installed
+
+- name: run Oracle installation
+  environment: "{{ ora_env }}"
+  command: "{{ oracle_install_location }}/runInstaller -silent -ignoreSysPrereqs -responseFile {{ oracle_install_location }}/rdbms_sw.rsp -waitForCompletion"
+  args:
+    chdir: "{{ oracle_install_location }}"
+  register: install_result
+  when:
+    - stat_installer.stat.exists
+    - stat_installer.stat.executable
+    - stat_rsp.stat.exists
+    - not oracle_installed.stat.exists
+  failed_when: install_result.rc != 0 and install_result.rc != 6
+
+- name: general oracle post-installation
+  become_user: root
+  command: "{{ oracle_base }}/oraInventory/orainstRoot.sh"
+  when:
+    - not oracle_installed.stat.exists
+    - stat_installer.stat.exists
+    - stat_installer.stat.executable
+    - stat_rsp.stat.exists
+
+- name: db-specific oracle post-installation
+  become_user: root
+  command: "{{ ora_env.ORACLE_HOME }}/root.sh"
+  when:
+    - not oracle_installed.stat.exists
+    - stat_installer.stat.exists
+    - stat_installer.stat.executable
+    - stat_rsp.stat.exists
+
+- when: stat_opatch.stat.exists
+  block:
+  - name: remove dist OPatch
+    file:
+      state: absent
+      path: "{{ oracle_home }}/OPatch"
+
+  - name: copy OPatch from patch
+    command: "mv {{ oracle_packages_location }}/OPatch {{ oracle_home }}/OPatch"
+    args:
+      creates: "{{ oracle_home }}/OPatch"
+
+- name: apply patch
+  environment: "{{ ora_env }}"
+  command: "opatch apply -silent -ocmrf ../ocm.rsp"
+  args:
+    chdir: "{{ oracle_packages_location }}/{{ item.item }}"
+  loop: "{{ stat_patches.results }}"
+  loop_control:
+    label: "{{ item.item }}"
+  when: item.stat.exists
+
 # # Unpack Ora patches
 # export ORACLE_SID=ORACLE
 # export ORACLE_SID_KL=$(echo $ORACLE_SID|tr [:upper:] [:lower:])
@@ -13,36 +91,31 @@
 #
 # rm -rf $ORACLE_HOME/OPatch
 # mv OPatch $ORACLE_HOME
+
 # cd 28163133
 # opatch apply -silent -ocmrf ../ocm.rsp
 #
 # opatch lsinventory > $HOME/opatch_lsinventory.log
 #
 #
+
 # ### disable options
-# - name: chopts
-#   environment: "{{ ora_env }}"
-#   shell: "{{ 'chopt disable ' + item }}"
-#   args:
-#     chdir: "$ORACLE_HOME/bin"
-#   loop:
-#     - olap
-#     - partitioning
-#     - rat
-#     - oaa
-# cd $ORACLE_HOME/bin
-# chopt disable olap
-# chopt disable partitioning
-# chopt disable rat
-# chopt disable oaa
+- name: chopts
+  environment: "{{ ora_env }}"
+  shell: "{{ oracle_home }}/bin/chopt disable {{ item }}"
+  loop:
+    - olap
+    - partitioning
+    - rat
+    - oaa
 
 ### sticky bits
-# - name: set sticky bit on tnslsnr
-#   file:
-#     path: /opt/oracle/sw/oracle/12cR2/bin/tnslsnr
-#     mode: u=rwx,g=rx,o=x,g+s
-#
-# - name: set sticky bit on tnslsnr
-#   file:
-#     path: /opt/oracle/sw/oracle/12cR2/bin/oracle
-#     mode: u=rwx,g=rx,o=x,g+s
+- name: set sticky bit on tnslsnr
+  file:
+    path: /opt/oracle/sw/oracle/12cR2/bin/tnslsnr
+    mode: 06751
+
+- name: set sticky bit on tnslsnr
+  file:
+    path: /opt/oracle/sw/oracle/12cR2/bin/oracle
+    mode: 06751
