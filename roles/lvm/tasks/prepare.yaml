@@ -1,0 +1,52 @@
+---
+
+- name: register lvm devices
+  shell: cat /proc/partitions | awk {' print $4 '} |grep ^vd | grep -v vda | grep -v [0-9]
+  register: lvm_volumes
+
+- name: register lvm devicestring
+  shell: cat /proc/partitions | awk {' print "/dev/"$4 '} | grep "/dev/vd" | grep -v vda | grep -v [0-9] | sed ':a;N;$!ba;s/\n/1,/g' | sed 's/$/1/'
+  register: lvm_volumes_string
+
+- debug:
+    msg: "lvm_volumes:{{ item }}"
+  with_items: "{{ lvm_volumes.stdout_lines }}"
+
+- debug:
+    msg: "lvm_volumes_string:{{ item }}"
+  with_items: "{{ lvm_volumes_string.stdout }}"
+
+- parted:
+    device: /dev/{{ item }}
+    number: 1
+    flags: [ lvm ]
+    state: present
+  with_items: "{{ lvm_volumes.stdout_lines }}"
+
+- name: running pvscan
+  shell: pvscan
+
+- name: create pvs if needed
+  shell: if ! pvs | grep /dev/{{ item }}1; then pvcreate /dev/{{ item }}1; fi
+  with_items: "{{ lvm_volumes.stdout_lines }}"
+
+- name: Create volume group if not existing
+  lvg:
+    vg: "{{ item.value.vg }}"
+    pvs: "{{ lvm_volumes_string.stdout }}"
+    state: present
+  with_dict: "{{ lv }}"
+
+- name: Create logical volumes if not existing
+  lvol:
+    vg: "{{ item.value.vg }}"
+    lv: "{{ item.value.name }}"
+    size: "{{ default_volume_size }}g"
+    state: present
+  with_dict: "{{ lv }}"
+
+- name: Create filesystems if needed
+  filesystem:
+    fstype: "{{ server_volumes_filesystem }}"
+    dev: /dev/{{ item.value.vg }}/{{ item.value.name }}
+  with_dict: "{{ lv }}"
