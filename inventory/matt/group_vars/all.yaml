@@ -2,16 +2,30 @@
 
 cloud_name: otc
 server_name: matt-bms-rrs
+
+# Server image name (default: Beta_OracleLinux_7UEK_BMS_latest)
+server_image_name: Beta_OracleLinux_7UEK_BMS_latest
+
+# Server flavor (default: physical.o2.medium)
+server_flavor_name: physical.o2.medium
+
 server_networks:
   - net-id: 23289438-add4-4f9a-84ee-897691137180
 
 # Security groups should be present
-# server_security_groups:
-  # - sg-Matt
+server_security_groups:
+  - sg-Matt
 
 server_availability_zone: eu-de-02
+
 server_key_name: KeyPair-Matt-CM
-# server_username: linux
+
+# SSH user name to use for connection
+server_username: linux
+
+# data volumes to attach/detach
+# default size of the cinder volume to create for LVM (default: 10)
+default_volume_size: 1
 
 # data volumes to attach/detach
 server_volumes:
@@ -37,3 +51,16 @@ lv:
 # filesystem and mount options configuration
 server_volumes_filesystem: xfs
 server_volumes_mount_opt: rw
+
+
+sw_packages_list:
+sw_source_location: /home/gtema/workspace/otc/roland-drs/sw
+# oracle_packages_list:
+#   - V839960-01(Server).zip
+#   - p28163133_122010_Linux-x86-64.zip
+#   - p6880880_122010_Linux-x86-64.zip
+
+# List of patch directories to be applied with `opatch` after unpacking them
+# from `oracle_packages_list`
+oracle_patches_list:
+  - 28163133
