@@ -61,12 +61,34 @@ lv:
 server_volumes_filesystem: xfs
 server_volumes_mount_opt: rw
 
+oracle_packages_location: "{{ oracle_path }}/orainst"
+# List of packages to be deployed to oracle server
+# type: archive would be unpacked to dest
+# src: url and remote_src: true - download file to dest
 sw_packages_list:
+  - name: V839960-01(Server).zip
+    src: "{{ sw_source_location }}/V839960-01(Server).zip"
+    dest: "{{ oracle_packages_location }}"
+    type: archive
+    remote_src: false
+  - name: p6880880_122010_Linux-x86-64.zip
+    src: "{{ sw_source_location }}/p6880880_122010_Linux-x86-64.zip"
+    dest: "{{ oracle_packages_location }}"
+    type: archive
+    remote_src: false
+  - name: p28163133_122010_Linux-x86-64.zip
+    src: "{{ sw_source_location }}/p28163133_122010_Linux-x86-64.zip"
+    dest: "{{ oracle_packages_location }}"
+    type: archive
+    remote_src: false
+  - name: rdbms_sw.rsp
+    src: "{{ sw_source_location }}/rdbms_sw.rsp"
+    dest: "{{ oracle_packages_location }}"
+  - name: ocm.rsp
+    src: "{{ sw_source_location }}/ocm.rsp"
+    dest: "{{ oracle_packages_location }}"
+
 sw_source_location: /home/gtema/workspace/otc/roland-drs/sw
-# oracle_packages_list:
-#   - V839960-01(Server).zip
-#   - p28163133_122010_Linux-x86-64.zip
-#   - p6880880_122010_Linux-x86-64.zip
 
 # List of patch directories to be applied with `opatch` after unpacking them
 # from `oracle_packages_list`

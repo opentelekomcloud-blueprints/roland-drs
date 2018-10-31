@@ -7,13 +7,27 @@
     state: directory
     mode: 0775
 
-- name: unzip oracle install packages to {{ oracle_packages_location }}
+- name: unzip archive sw to configured remote destination
   unarchive:
-    src: "{{ sw_source_location }}/{{ item }}"
-    dest: "{{ oracle_packages_location }}"
-  loop: "{{ oracle_packages_list }}"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    remote_src: "{{ item.remote_src | default(omit) }}"
+  loop: "{{ sw_packages_list | selectattr('type', 'defined') | selectattr('type', 'equalto', 'archive') | list }}"
 
-- name: push response file for oracle installation
+- name: download sw to configured remote destination
+  get_url:
+    url: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop: "{{ sw_packages_list }}"
+  when:
+    - item.remote_src is defined and item.remote_src
+    - item.type is not defined or item.type != 'archive'
+
+- name: upload remaining sw from localhost to configured remote destination
   copy:
-    src: "{{ sw_source_location }}/rdbms_sw.rsp"
-    dest: "{{ oracle_install_location }}/rdbms_sw.rsp"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop: "{{ sw_packages_list }}"
+  when:
+    - item.remote_src is not defined or not item.remote_src
+    - item.type is not defined or item.type != 'archive'
