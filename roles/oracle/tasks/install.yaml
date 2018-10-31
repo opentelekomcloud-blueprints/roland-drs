@@ -28,7 +28,7 @@
 
 - name: run Oracle installation
   environment: "{{ ora_env }}"
-  command: "{{ oracle_install_location }}/runInstaller -silent -ignoreSysPrereqs -responseFile {{ oracle_install_location }}/rdbms_sw.rsp -waitForCompletion"
+  command: "{{ oracle_install_location }}/runInstaller -silent -ignoreSysPrereqs -responseFile {{ oracle_packages_location }}/rdbms_sw.rsp -waitForCompletion"
   args:
     chdir: "{{ oracle_install_location }}"
   register: install_result
@@ -69,9 +69,9 @@
     args:
       creates: "{{ oracle_home }}/OPatch"
 
-- name: apply patch
+- name: apply patches
   environment: "{{ ora_env }}"
-  command: "opatch apply -silent -ocmrf ../ocm.rsp"
+  command: "{{ oracle_home }}/OPatch/opatch apply -silent -ocmrf {{ oracle_packages_location }}/ocm.rsp"
   args:
     chdir: "{{ oracle_packages_location }}/{{ item.item }}"
   loop: "{{ stat_patches.results }}"
@@ -79,25 +79,9 @@
     label: "{{ item.item }}"
   when: item.stat.exists
 
-# # Unpack Ora patches
-# export ORACLE_SID=ORACLE
-# export ORACLE_SID_KL=$(echo $ORACLE_SID|tr [:upper:] [:lower:])
-# export ORACLE_BASE=/opt/oracle/sw/lib:${ORACLE_SID_KL}
-# export ORACLE_HOME=${ORACLE_BASE}/12cR2
-# export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib:$ORACLE_HOME/lib:$ORACLE_HOME/rdbms/lib
-# export ORACLE_NLS10=$ORACLE_HOME/nls/databaseexport PATH=$ORACLE_HOME/product/12.2.0.1/perl/bin:$PATH:$ORACLE_HOME/bin:.:$ORACLE_HOME/OPatch
-#
-# /opt/oracle/sw/orainst/runInstaller -silent -ignoreSysPrereqs -responseFile rdbms_sw.rsp
-#
-# rm -rf $ORACLE_HOME/OPatch
-# mv OPatch $ORACLE_HOME
-
-# cd 28163133
-# opatch apply -silent -ocmrf ../ocm.rsp
-#
-# opatch lsinventory > $HOME/opatch_lsinventory.log
-#
-#
+- name: save opatch inventory
+  environment: "{{ ora_env }}"
+  shell: "{{ oracle_home }}/OPatch/opatch lsinventory > {{ oracle_path }}/opatch_lsinventory.log"
 
 # ### disable options
 - name: chopts
