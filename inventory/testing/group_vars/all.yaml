@@ -23,7 +23,7 @@ server_security_groups:
 # server_default_security_group: bms-sg is created if does not exist
 
 # Availability zone for the server (default: eu-de-01)
-server_availability_zone: eu-de-02
+server_availability_zone: eu-de-01
 
 # KeyPair name for the server to be created with
 server_key_name: KeyPair-e95e
@@ -48,14 +48,17 @@ lv:
     name: ora1
     vg: oradata
     mount: /oracle/ora1
+    size: 10
   ora2:
     name: ora2
     vg: oradata
     mount: /oracle/ora2
+    size: 10
   ora3:
     name: ora3
     vg: oradata
     mount: /oracle/ora3
+    size: 9
 
 # filesystem and mount options configuration
 server_volumes_filesystem: xfs

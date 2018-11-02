@@ -1,0 +1,20 @@
+---
+# This playbook provisions new Oracle server
+
+# Provision server
+- import_playbook: ../bms/main.yaml
+
+# Create Volumes
+- import_playbook: ../bms/check_volumes.yaml
+
+# Attach Volumes
+- import_playbook: ../lvm/attach.yaml
+
+# Setup LVM
+- import_playbook: ../lvm/prepare.yaml
+
+# Mount LVM
+- import_playbook: ../lvm/mount.yaml
+
+# Install Oracle
+- import_playbook: ../oracle/main.yaml

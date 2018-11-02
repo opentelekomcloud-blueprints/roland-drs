@@ -22,3 +22,5 @@ lv: []
 # filesystem and mount options configuration
 server_volumes_filesystem: xfs
 server_volumes_mount_opt: rw
+
+device_name_prefix: sd

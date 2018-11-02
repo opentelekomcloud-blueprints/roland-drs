@@ -1,0 +1,8 @@
+---
+# delete volumes
+- name: delete cinder volumes
+  os_volume:
+    state: absent
+    display_name: "{{ item.name }}"
+    availability_zone: "{{ server_availability_zone }}"
+  loop: "{{ server_volumes }}"

@@ -10,3 +10,10 @@
     metadata:
       "hw:passthrough": "true"
   loop: "{{ server_volumes }}"
+  register: volumes_results
+
+# Ensure, that AZ of the volume (if was existing) matches target
+- assert:
+    that: "{{ item.volume.availability_zone == server_availability_zone }}"
+    msg: "Availability zone of the volume does not match target. Please destroy volumes"
+  loop: "{{ volumes_results.results }}"

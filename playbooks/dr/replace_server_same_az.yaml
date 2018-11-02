@@ -1,0 +1,34 @@
+---
+# This playbook provisions new Oracle server
+
+- hosts: localhost
+  tasks:
+  - name: confirm DR
+    pause: prompt='Please confirm you want to destroy current server! Press return to continue. Press Ctrl+c and then "a" to abort'
+
+# unmount LVM
+- import_playbook: ../lvm/umount.yaml
+
+# Detach Volumes
+- import_playbook: ../lvm/detach.yaml
+
+# destroy current server
+- import_playbook: ../bms/destroy.yaml
+
+# Provision server
+- import_playbook: ../bms/main.yaml
+
+# Create Volumes
+- import_playbook: ../bms/check_volumes.yaml
+
+# Attach Volumes
+- import_playbook: ../lvm/attach.yaml
+
+# # Setup LVM
+# - import_playbook: ../lvm/prepare.yaml
+
+# Mount LVM
+- import_playbook: ../lvm/mount.yaml
+
+# Install Oracle
+- import_playbook: ../oracle/main.yaml

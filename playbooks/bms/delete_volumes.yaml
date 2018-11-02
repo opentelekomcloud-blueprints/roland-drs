@@ -1,0 +1,10 @@
+---
+
+- name: delete Cinder volumes for BMS (LVM)
+  environment:
+    OS_CLOUD: "{{ cloud_name }}"
+  hosts: localhost
+  tasks:
+    - include_role:
+        name: bms
+        tasks_from: delete_volumes

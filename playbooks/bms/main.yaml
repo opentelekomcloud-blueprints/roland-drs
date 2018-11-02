@@ -1,11 +1,11 @@
 ---
-# - name: Create BMS
-#   hosts: localhost
-#   environment:
-#     OS_CLOUD: "{{ cloud_name }}"
-#   tasks:
-#     - include_role:
-#         name: bms
+- name: Create BMS
+  hosts: localhost
+  environment:
+    OS_CLOUD: "{{ cloud_name }}"
+  tasks:
+    - include_role:
+        name: bms
 
 - name: Provision BMS
   hosts: bms_servers
