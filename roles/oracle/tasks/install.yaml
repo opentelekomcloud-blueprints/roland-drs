@@ -8,7 +8,7 @@
 
 - name: check presence of response file
   stat:
-    path: "{{ oracle_install_location }}/rdbms_sw.rsp"
+    path: "{{ oracle_packages_location }}/rdbms_sw.rsp"
   register: stat_rsp
 
 - name: check presence of OPatch distr
