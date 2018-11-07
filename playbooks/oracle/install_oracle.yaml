@@ -1,0 +1,11 @@
+---
+# This playbook can be used to repeat Oracle installation 
+# without repeating pushing software or pre-install steps
+- name: Install Oracle on BMS servers
+  hosts: bms_servers
+  become: true
+  become_user: oracle
+  tasks:
+    - include_role:
+        name: oracle
+        tasks_from: install
