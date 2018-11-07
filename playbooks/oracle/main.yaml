@@ -7,14 +7,14 @@
         name: oracle
         tasks_from: preinstall
 
-# - name: Install Oracle on BMS servers
-#   hosts: bms_servers
-#   become: true
-#   become_user: oracle
-#   tasks:
-#     - include_role:
-#         name: oracle
-#         tasks_from: push_sw
-#     - include_role:
-#         name: oracle
-#         tasks_from: install
+- name: Install Oracle on BMS servers
+  hosts: bms_servers
+  become: true
+  become_user: oracle
+  tasks:
+    - include_role:
+        name: oracle
+        tasks_from: push_sw
+    - include_role:
+        name: oracle
+        tasks_from: install
