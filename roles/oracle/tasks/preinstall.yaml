@@ -6,6 +6,12 @@
     name: oracle-database-server-12cR2-preinstall.x86_64
     state: present
 
+- name: create /opt/oracle dir
+  file:
+    path: /opt/oracle
+    state: directory
+    mode: 0750
+
 - name: move Oracle home
   user:
     name: oracle
