@@ -19,7 +19,7 @@ DOCUMENTATION = '''
 module: os_server_tag
 short_description: Manage server tags
 extends_documentation_fragment: openstack
-version_added: "2.7"
+version_added: "2.8"
 author: "Artem Goncharov (gtema)"
 description:
     - set or delete tag from the Nova server
@@ -35,7 +35,7 @@ options:
      default: present
    tag:
      description:
-       - tag name.
+       - tag name
      required: true
 requirements:
     - "python >= 2.7"
@@ -49,7 +49,6 @@ EXAMPLES = '''
     server: "{{ server_name }}"
     state: present
     name: __type_baremetal
-    value: ''
 '''
 
 RETURN = '''
@@ -74,7 +73,6 @@ def main():
                            supports_check_mode=True,
                            **module_kwargs)
 
-    # state = module.params['state']
     server = module.params['server']
     state = module.params['state']
     tag = module.params['tag']
